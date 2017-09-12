@@ -1,0 +1,9 @@
+﻿What is Spring?
+--------------
+Framework that makes developing Java applications easier.
+Spring has best practices and design patterns built in. Even though I do not understand these patterns,
+I will be able to get the benefits of those best practices anyway.
+
+Commonly used for Java based web applications.
+Used as a way to access and manage database transactions in Java programs.
+Broken up into pieces/modules.

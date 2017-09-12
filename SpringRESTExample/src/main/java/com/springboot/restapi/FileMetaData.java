@@ -1,0 +1,168 @@
+package com.springboot.restapi;
+
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class FileMetaData {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
+	@Column
+	private String name;
+
+	@Column
+	private String originalName;
+
+	@Column
+	private String description;
+
+	@Column
+	private String path;
+
+	@Column
+	private LocalDateTime createdDate;
+
+	@Column
+	private String contentType;
+
+	@Column
+	private Long size;
+
+	@Column
+	private LocalDateTime lastUpdatedDate;
+
+	@Column
+	private LocalDateTime lastAccessDate;
+
+	@Column
+	private boolean directory;
+
+	@Column
+	private boolean other;
+
+	@Column
+	private boolean regularFile;
+
+	@Column
+	private boolean symbolicLink;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public LocalDateTime getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(LocalDateTime createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+
+	public String getOriginalName() {
+		return originalName;
+	}
+
+	public void setOriginalName(String originalName) {
+		this.originalName = originalName;
+	}
+
+	public Long getSize() {
+		return size;
+	}
+
+	public void setSize(Long size) {
+		this.size = size;
+	}
+
+	public LocalDateTime getLastUpdatedDate() {
+		return lastUpdatedDate;
+	}
+
+	public void setLastUpdatedDate(LocalDateTime lastUpdatedDate) {
+		this.lastUpdatedDate = lastUpdatedDate;
+	}
+
+	public LocalDateTime getLastAccessDate() {
+		return lastAccessDate;
+	}
+
+	public void setLastAccessDate(LocalDateTime lastAccessDate) {
+		this.lastAccessDate = lastAccessDate;
+	}
+
+	public boolean isDirectory() {
+		return directory;
+	}
+
+	public void setDirectory(boolean directory) {
+		this.directory = directory;
+	}
+
+	public boolean isOther() {
+		return other;
+	}
+
+	public void setOther(boolean other) {
+		this.other = other;
+	}
+
+	public boolean isRegularFile() {
+		return regularFile;
+	}
+
+	public void setRegularFile(boolean regularFile) {
+		this.regularFile = regularFile;
+	}
+
+	public boolean isSymbolicLink() {
+		return symbolicLink;
+	}
+
+	public void setSymbolicLink(boolean symbolicLink) {
+		this.symbolicLink = symbolicLink;
+	}
+
+}
