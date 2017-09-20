@@ -1,7 +1,5 @@
 package com.springboot.restapi;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
@@ -24,11 +22,12 @@ public class RESTClient {
 	 *
 	 * @return
 	 */
-	public String getAllFiles() {
-		String result = restTemplate.getForObject(
+	public ResponseEntity<String> getAllFiles() {
+		ResponseEntity<String> response = restTemplate.getForEntity(
 				"http://localhost:8080/files", String.class);
-
-		return result;
+		System.out.println("http://localhost:8080/files" + " ---> "
+				+ response.toString());
+		return response;
 	}
 
 	/**
@@ -38,12 +37,16 @@ public class RESTClient {
 	 * @param fileMetaDataSearchCriteria
 	 * @return
 	 */
-	public String searchFiles(
+	public ResponseEntity<String> searchFiles(
 			FileMetaDataSearchCriteria fileMetaDataSearchCriteria) {
 		HttpEntity<FileMetaDataSearchCriteria> request = new HttpEntity<>(
 				fileMetaDataSearchCriteria);
-		return restTemplate.postForObject("http://localhost:8080/searchFile",
-				request, List.class).toString();
+		ResponseEntity<String> response = restTemplate.postForEntity(
+				"http://localhost:8080/searchFile", request, String.class);
+		System.out.println("http://localhost:8080/searchFile"
+				+ " Search Criteria: " + fileMetaDataSearchCriteria.toString()
+				+ " ---> " + response.toString());
+		return response;
 	}
 
 	/**
@@ -55,7 +58,8 @@ public class RESTClient {
 	 * @param descr
 	 * @return
 	 */
-	public String uploadFile(String filePath, String name, String descr) {
+	public ResponseEntity<String> uploadFile(String filePath, String name,
+			String descr) {
 		try {
 			MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<String, Object>();
 			parameters.add("file", new FileSystemResource(filePath));
@@ -66,16 +70,22 @@ public class RESTClient {
 			headers.set("Content-Type", "multipart/form-data");
 			headers.set("Accept", "text/plain");
 
-			String result = restTemplate.postForObject(
+			ResponseEntity<String> response = restTemplate.postForEntity(
 					"http://localhost:8080/upload",
 					new HttpEntity<MultiValueMap<String, Object>>(parameters,
 							headers), String.class);
-
-			return result;
+			System.out.println("http://localhost:8080/upload" + " file: "
+					+ filePath + ", name: " + name + ", descr: " + descr
+					+ " ---> " + response.toString());
+			return response;
 		} catch (Exception e) {
-			return new ResponseEntity<Object>("uploadFile('" + filePath
-					+ "', '" + name + "', '" + descr + "') has failed.",
-					HttpStatus.BAD_REQUEST).toString();
+			ResponseEntity<String> excResponse = new ResponseEntity<String>(
+					"uploadFile('" + filePath + "', '" + name + "', '" + descr
+							+ "') has failed.", HttpStatus.BAD_REQUEST);
+			System.out.println("http://localhost:8080/upload" + " file: "
+					+ filePath + ", name: " + name + ", descr: " + descr
+					+ " ---> " + excResponse.toString());
+			return excResponse;
 		}
 	}
 
@@ -86,16 +96,21 @@ public class RESTClient {
 	 * @param id
 	 * @return
 	 */
-	public String getFileMetaDataById(Integer id) {
+	public ResponseEntity<String> getFileMetaDataById(Integer id) {
 		try {
-			String result = restTemplate.getForObject(
+			ResponseEntity<String> response = restTemplate.getForEntity(
 					"http://localhost:8080/metadata/" + id, String.class);
+			System.out.println("http://localhost:8080/metadata/" + id
+					+ " ---> " + response.toString());
 
-			return result;
+			return response;
 		} catch (Exception e) {
-			return new ResponseEntity<Object>("getFileMetaDataById(" + id
-					+ ") has failed.", HttpStatus.BAD_REQUEST).toString();
-
+			ResponseEntity<String> excResponse = new ResponseEntity<String>(
+					"getFileMetaDataById(" + id + ") has failed.",
+					HttpStatus.BAD_REQUEST);
+			System.out.println("http://localhost:8080/metadata/" + id
+					+ " ---> " + excResponse.toString());
+			return excResponse;
 		}
 	}
 
@@ -106,18 +121,24 @@ public class RESTClient {
 	 * @param id
 	 * @return
 	 */
-	public String downloadFile(Integer id) {
+	public ResponseEntity<String> downloadFile(Integer id) {
 		try {
 			restTemplate.getMessageConverters().add(
 					new ByteArrayHttpMessageConverter());
 
-			return restTemplate.getForObject("http://localhost:8080/download/"
-					+ id, String.class);
+			ResponseEntity<String> response = restTemplate.getForEntity(
+					"http://localhost:8080/download/" + id, String.class);
+			System.out.println("http://localhost:8080/download/" + id
+					+ " ---> " + response.toString());
+			return response;
 		}
 
 		catch (Exception e) {
-			return new ResponseEntity<Object>("downloadFile(" + id
-					+ ") has failed.", HttpStatus.BAD_REQUEST).toString();
+			ResponseEntity<String> excResponse = new ResponseEntity<String>("downloadFile(" + id
+					+ ") has failed.", HttpStatus.BAD_REQUEST);
+			System.out.println("http://localhost:8080/download/" + id
+					+ " ---> " + excResponse.toString());
+			return excResponse;
 		}
 	}
 }

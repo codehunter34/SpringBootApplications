@@ -1,9 +1,12 @@
 package com.springboot.restapi;
 
+import java.util.Properties;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
@@ -14,77 +17,46 @@ public class Application {
 				args);
 
 		/**
-		 * This method call will create a the folder "C://UploadRepo". This
-		 * folder will be used to save the content of uploaded files.
+		 * This method call will create the folder "C://UploadRepo". This folder
+		 * will be used to save the content of the uploaded files.
 		 */
 		((FileUploadUtil) context.getBean("fileUploadUtil"))
 				.createUploadRepository();
 
-		System.out.println(((RESTClient) context.getBean("restClient"))
-				.getAllFiles());
+		System.out
+				.println("Important: For testing purposes, I assume that files in 'C://UploadRepo' and 'C://UploadRepo' folder itself will not be removed manually while the application is running.");
 
-		System.out.println(((RESTClient) context.getBean("restClient"))
-				.uploadFile(
-						"src/main/resources/UploadFromRepository/TextFile.txt",
-						null, null));
+		System.out
+				.println("Important: Please run RestClientTest.java to run the unit tests. The tests are connected to each other. Please make sure you run the whole class(not single methods) for the convenience of tests.");
 
-		System.out.println(((RESTClient) context.getBean("restClient"))
-				.getAllFiles());
-
-		System.out.println(((RESTClient) context.getBean("restClient"))
-				.uploadFile(
-						"src/main/resources/UploadFromRepository/TextFile.txt",
-						"TextFile_1.txt", null));
-
-		System.out.println(((RESTClient) context.getBean("restClient"))
-				.uploadFile(
-						"src/main/resources/UploadFromRepository/TextFile.txt",
-						"TextFile_2.txt", "Test"));
-
-		System.out.println(((RESTClient) context.getBean("restClient"))
-				.uploadFile("C://FileRepo/TextFileee.txt", "TextFile_3.txt",
-						"Test"));
-
-		System.out.println(((RESTClient) context.getBean("restClient"))
-				.uploadFile("C://FileRepo///", "TextFile_4.txt", "Test"));
-
-		System.out.println(((RESTClient) context.getBean("restClient"))
-				.uploadFile("C://FileRepo/TextFile.txt", "Text//File_5.txt",
-						"Test"));
-
-		System.out.println(((RESTClient) context.getBean("restClient"))
-				.getAllFiles());
-
-		System.out.println(((RESTClient) context.getBean("restClient"))
-				.getFileMetaDataById(1));
-
-		System.out.println(((RESTClient) context.getBean("restClient"))
-				.getFileMetaDataById(null));
-
-		System.out.println(((RESTClient) context.getBean("restClient"))
-				.getFileMetaDataById(100));
-
-		System.out.println(((RESTClient) context.getBean("restClient"))
-				.downloadFile(1));
-
-		System.out.println(((RESTClient) context.getBean("restClient"))
-				.downloadFile(null));
-
-		System.out.println(((RESTClient) context.getBean("restClient"))
-				.downloadFile(100));
-
-		FileMetaDataSearchCriteria fileMetaDataSearchCriteria = new FileMetaDataSearchCriteria();
-
-		fileMetaDataSearchCriteria.setName("File_1");
-
-		System.out.println(((RESTClient) context.getBean("restClient"))
-				.searchFiles(fileMetaDataSearchCriteria));
-
+		System.out
+				.println("Important: Please run RestClientTest.java once for each run on Application.java. Otherwise, the test results will be unexpected due to uploading duplicate name files.");
 	}
 
 	@Bean
 	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
+	}
+
+	/**
+	 * This part may need update due to the network settings in the machine that
+	 * code is executed.
+	 *
+	 * @return
+	 */
+	@Bean
+	public JavaMailSenderImpl createJavaMailSender() {
+		JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+		javaMailSender.setHost("smtp.gmail.com");
+		javaMailSender.setPort(587);
+		Properties properties = new Properties();
+		properties.put("spring.mail.username", "*****");
+		properties.put("spring.mail.password", "*****");
+
+		properties.put("spring.mail.properties.mail.smtp.auth", true);
+		properties
+				.put("spring.mail.properties.mail.smtp.starttls.enable", true);
+		return javaMailSender;
 	}
 
 }

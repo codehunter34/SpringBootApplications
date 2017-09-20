@@ -36,7 +36,6 @@ public class FileUploadUtil {
 								+ DEFAULT_UPLOADED_FOLDER + "!");
 			}
 		}
-
 		System.out
 				.println("Please see the 'C:' directory for the new created UploadRepo folder that will be used as the default upload repository.");
 
@@ -111,7 +110,7 @@ public class FileUploadUtil {
 		return fileMetaData;
 	}
 
-	public static LocalDateTime createLocalDateTimeFrom(FileTime fileTime) {
+	public LocalDateTime createLocalDateTimeFrom(FileTime fileTime) {
 		if (fileTime != null) {
 			Calendar cal = Calendar.getInstance();
 			cal.setTimeInMillis(fileTime.toMillis());
@@ -124,4 +123,13 @@ public class FileUploadUtil {
 		return null;
 	}
 
+	/**
+	 * This method is to check whether the given name is a valid file name
+	 *
+	 * @param file
+	 * @return
+	 */
+	public boolean isFilenameValid(String file) {
+		return !file.matches("^.*[^a-zA-Z0-9._-].*$");
+	}
 }

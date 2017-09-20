@@ -2,6 +2,8 @@ package com.springboot.restapi;
 
 import java.time.LocalDateTime;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 public class FileMetaDataSearchCriteria {
 
 	private String name;
@@ -123,5 +125,19 @@ public class FileMetaDataSearchCriteria {
 
 	public void setLastAccessDateTo(LocalDateTime lastAccessDateTo) {
 		this.lastAccessDateTo = lastAccessDateTo;
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this).appendSuper(super.toString())
+				.append("name", name).append("descr", descr)
+				.append("path", path)
+				.append("createdDateFrom", createdDateFrom)
+				.append("createdDateTo", createdDateTo)
+				.append("lastUpdateDateFrom", lastUpdateDateFrom)
+				.append("lastUpdateDateTo", lastUpdateDateTo)
+				.append("contentType", contentType)
+				.append("lastAccessDateFrom", lastAccessDateFrom)
+				.append("lastAccessDateTo", lastAccessDateTo).toString();
 	}
 }
